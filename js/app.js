@@ -22,20 +22,7 @@ document.addEventListener('DOMContentLoaded', function () {
     inputMensaje.addEventListener('input', validar); 
     btnReset.addEventListener('click', (e)=>{
         e.preventDefault();
-
-        // reasignar el objeto con for
-        // for( let valor in campos ){
-        //     campos[valor] = '';
-        // }
-
-        // reasignar el objeto con forEach (object.keys es un array)
-        let campoValores = Object.keys(campos);
-        campoValores.forEach( valor =>{
-            campos[valor] = '';
-        });
-        comprobarCampos();
-        console.log(campos);
-        formulario.reset();
+        resetearForm();
     });
     formulario.addEventListener('submit', enviarFormulario);
 
@@ -125,14 +112,31 @@ document.addEventListener('DOMContentLoaded', function () {
         // console.log(campoValores.includes(''));
 
         if (campoValores.includes('')) {
-            console.log('verificacion incorrecta');
+            // console.log('verificacion incorrecta');
             btnSubmit.classList.add('opacity-50');
             btnSubmit.disabled = true;
             return //ahorrar else
         } 
-        console.log('verificacion correcta');
+        // console.log('verificacion correcta');
         btnSubmit.classList.remove('opacity-50');
         btnSubmit.disabled = false;
+    }
+
+    // resetear formulario
+    function resetearForm() {
+        // reasignar el objeto con for
+        // for( let valor in campos ){
+        //     campos[valor] = '';
+        // }
+
+        // reasignar el objeto con forEach (object.keys es un array)
+        let campoValores = Object.keys(campos);
+        campoValores.forEach( valor =>{
+            campos[valor] = '';
+        });
+        comprobarCampos();
+        console.log(campos);
+        formulario.reset();
     }
 
     // envia el formulario
@@ -141,6 +145,15 @@ document.addEventListener('DOMContentLoaded', function () {
         console.log('enviando');
         spinner.classList.remove('hidden');
         spinner.classList.add('flex');
+        const texto = btnSubmit.querySelector('p');
+        console.log(texto);
+        texto.textContent = 'Enviando';
+        setTimeout(() => {
+            spinner.classList.add('hidden');
+            spinner.classList.remove('flex');
+            texto.textContent = 'Enviar';
+            resetearForm();
+        }, 3000);
     }
 
 });
