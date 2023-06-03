@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function () {
     inputMensaje.addEventListener('input', validar); 
     btnReset.addEventListener('click', (e)=>{
         e.preventDefault();
-        resetearForm();
+        resetForm();
     });
     formulario.addEventListener('submit', enviarFormulario);
 
@@ -123,7 +123,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // resetear formulario
-    function resetearForm() {
+    function resetForm() {
         // reasignar el objeto con for
         // for( let valor in campos ){
         //     campos[valor] = '';
@@ -143,17 +143,33 @@ document.addEventListener('DOMContentLoaded', function () {
     function enviarFormulario(e) {
         e.preventDefault();
         console.log('enviando');
+        // habilitando spinner
         spinner.classList.remove('hidden');
         spinner.classList.add('flex');
+        // cambiando texto del btn
         const texto = btnSubmit.querySelector('p');
         console.log(texto);
         texto.textContent = 'Enviando';
+        // deshabilitar boton enviar
+        btnSubmit.classList.add('opacity-50');
+        btnSubmit.disabled = true;
+        // en 3s se ejecutara el siguiente codigo
         setTimeout(() => {
+            // esconder spinner
             spinner.classList.add('hidden');
             spinner.classList.remove('flex');
+            // cambiar texto al btn
             texto.textContent = 'Enviar';
-            resetearForm();
+            // resetear form
+            resetForm();
+            // crear alerta
+            const alertaExito = document.createElement('p');
+            alertaExito.classList.add('bg-green-500', 'text-white', 'p-2', 'text-center', 'rounded-lg', 'mt-10', 'font-bold', 'text-sm', 'uppercase');
+            alertaExito.textContent = 'Mensaje enviado correctamente'
+            formulario.appendChild(alertaExito);
+            setTimeout(() => {
+                alertaExito.remove();
+            }, 2000);
         }, 3000);
     }
-
 });
