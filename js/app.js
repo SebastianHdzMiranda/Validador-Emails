@@ -4,6 +4,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const inputEmail = document.querySelector('#email');
     const inputAsunto = document.querySelector('#asunto');
     const inputMensaje = document.querySelector('#mensaje');
+    const inputCC = document.querySelector('#cc');
+    console.log(inputCC);
     const formulario = document.querySelector('#formulario');
     const btnSubmit = document.querySelector('#formulario button[type="submit"]');
     const btnReset = document.querySelector('#formulario button[type="reset"]');
@@ -20,6 +22,7 @@ document.addEventListener('DOMContentLoaded', function () {
     inputEmail.addEventListener('input', validar); 
     inputAsunto.addEventListener('input', validar); 
     inputMensaje.addEventListener('input', validar); 
+    inputCC.addEventListener('input', validar); 
     btnReset.addEventListener('click', (e)=>{
         e.preventDefault();
         resetForm();
@@ -32,6 +35,33 @@ document.addEventListener('DOMContentLoaded', function () {
         const contenido = e.target.value;
         const elementoID = e.target.id;
         const elementoPadre = e.target.parentElement;
+        if (elementoID === 'cc') {
+            // if (contenido.trim == '') {
+            // } 
+            console.log(contenido);
+            if (contenido === '') {
+                eliminarAlerta(elementoPadre);
+                delete campos[elementoID];
+                // campos[elementoID] = contenido.trim().toLowerCase();
+                console.log(campos);
+                comprobarCampos();
+            }
+            else{
+                if (!validarEmail(contenido)) {
+                    crearAlerta(`El campo ${elementoID} no es valido`, elementoPadre);
+                    campos[elementoID] = '';
+                    comprobarCampos();
+                    console.log(campos);
+                    return;  
+                } 
+                eliminarAlerta(elementoPadre);
+                campos[elementoID] = contenido.trim().toLowerCase();
+                console.log(campos);
+                comprobarCampos();
+                
+            }
+            return;
+        }
         if (contenido.trim() == '' ) {
             crearAlerta(`El campo ${elementoID} es obligatorio`, elementoPadre);
             campos[elementoID] = '';
